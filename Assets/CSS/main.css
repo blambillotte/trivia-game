@@ -1,8 +1,98 @@
 /* ==========================================================================
-    Section comment block
+    Typography and General Styles
+   ========================================================================== */
+body {
+  font-family: 'BioRhyme', serif;
+  background-image: url('../Images/escheresque.png');
+}
+
+input {
+  font-family: 'BioRhyme', serif;
+}
+
+ /* Main Containers
+    ========================================================================== */
+.container {
+  width: 600px;
+  height: 500px;
+  background-color: #a8cce6;
+  border-radius: 6px;
+  margin: 50px auto;
+  animation: fadein 1s;
+  transition: all .5s ease-in-out;
+  box-shadow: 0px 0px 10px 2px rgba(132, 152, 166, 0.72);
+}
+
+.small-size {
+  width: 300px;
+  height: 200px;
+}
+
+#question-prompt {
+  text-align: center;
+  font-size: 18px;
+  padding: 30px 0 10px 0;
+}
+
+.countdown {
+  height: 25px;
+  text-align: center;
+}
+
+#img-container {
+  width: 150px;
+}
+
+div > img {
+  width: 100%;
+}
+
+/* Button Styling
    ========================================================================== */
 
+#button-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 27px auto;
+}
 
+.btn {
+  cursor: pointer;
+  border: solid 1px #616971;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #ffffff;
+  padding: 6px 32px;
+  transition: all .3s ease-in-out;
+  animation: fadein 2s;
+  display: block;
+  margin: 0 auto;
+}
 
-/* Sub-section comment block
+.btn:hover {
+  background-color: #4088bb;
+}
+
+.options-btn {
+  background-color: #0e6aab;
+  margin: 3px 0;
+}
+
+.static-btn {
+  background-color: #0a66c9;
+}
+
+/*This class get toggled to remove buttons*/
+.hidden {
+  display: none;
+}
+
+/* Animation Keyframes
    ========================================================================== */
+
+/*Content gracfully fades in on load*/
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
