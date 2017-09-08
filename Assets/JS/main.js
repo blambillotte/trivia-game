@@ -4,33 +4,28 @@ var game = {
   ///// Constants
   QUESTIONS: [
     {
-      title: 'What is your fav color?',
-      options: ['Red', 'Green', 'Blue', 'Yellow', 'Purple'],
-      correctOptionIndex: 0,
-      imgSrc: 'http://www.valleyvineyardlabradoodles.com/wp-content/uploads/2014/03/Ella-standing-Sept-2014.jpg'
+      title: 'How many symphonies did Beethoven write?',
+      options: ['Two', 'Six', 'Nine', 'Thirteen', 'None'],
+      correctOptionIndex: 2,
+      imgSrc: './Assets/Images/beethoven.gif'
     },
     {
-      title: 'What is your fav Planet?',
-      options: ['Mars', 'Earth', 'Saturn', 'Neptune'],
+      title: 'At what age did Mozart start composing?',
+      options: ['Sixteen', 'Twenty', 'Six', 'Eleven'],
+      correctOptionIndex: 2,
+      imgSrc: './Assets/Images/mozart.gif'
+    },
+    {
+      title: 'Which composer wrote in the "Romantic" era?',
+      options: ['Shostakovich', 'Brahms', 'Vivaldi', 'Mozart', 'Bach'],
       correctOptionIndex: 1,
-      imgSrc: 'asdf;lksdjf'
-    },
-    {
-      title: 'What is your fav color3?',
-      options: ['Whattt', 'Green', 'Blue', 'Yellow', 'Purple'],
-      correctOptionIndex: 0,
-      imgSrc: 'asdf;lksdjf'
-    },
-    {
-      title: 'What is your fav color4?',
-      options: ['Yep', 'Green', 'Blue', 'Yellow', 'Purple'],
-      correctOptionIndex: 0,
-      imgSrc: 'asdf;lksdjf'
+      imgSrc: './Assets/Images/brahms.gif'
     }
   ],
   CONFIG: {
     questionTimeout: 10,
-    aftrQuestionPause: (3 * 1000)
+    aftrQuestionPause: (4 * 1000),
+    directions: 'Ready to play some Trivia? Click the Start button below and try to answer the questions before time runs out!'
   },
   ///// General Game Variables
   roundAttributes: {
@@ -46,23 +41,28 @@ var game = {
     startBtn: $('#start-btn'),
     resetBtn: $('#reset-btn'),
     qPrompt: $('#question-prompt'),
-    correctAnswr: $('#correct-Answer'),
+    correctAnswr: $('#correct-answer'),
     answerImg: $('#img-container'),
     container: $('#container'),
-    countDown: $('#time-remaining')
+    countDown: $('#time-remaining'),
+    infoDiv: $('#info')
   },
   /////////////
   /// Main Functions
   init: function() {
     //Add start and reset game Listener
     this.domElements.startBtn.click(game.gameStart);
-    game.domElements.resetBtn.click(game.resetGame);
+    this.domElements.resetBtn.click(game.resetGame);
+
+    //Write direcitons to the Dom
+    this.domElements.infoDiv.html(this.CONFIG.directions);
   },
 
   gameStart: function() {
     console.log('Game Starting! 🚀');
-    //Remove start button
+    //Remove start elements
     game.domElements.startBtn.addClass('hidden');
+    game.domElements.infoDiv.empty();
 
     //Resize window
     game.domElements.container.removeClass('small-size');
@@ -172,6 +172,7 @@ var game = {
     console.log($imgDiv);
     this.domElements.answerImg.append($imgDiv);
 
+
     //Check if last question after pausing
     var _this = this;
     setTimeout(function() {
@@ -191,11 +192,22 @@ var game = {
 
   gameOver: function() {
     console.log('Game Over');
+    //Resize window
+    game.domElements.container.addClass('small-size');
+
     //Rest DOM
-    game.domElements.resetBtn.removeClass('hidden');
+    this.domElements.resetBtn.removeClass('hidden');
     this.domElements.qPrompt.addClass('hidden');
     this.domElements.answerImg.addClass('hidden');
     this.domElements.countDown.addClass('hidden');
+    this.domElements.answerImg.empty();
+    this.domElements.correctAnswr.empty();
+
+    // TODO: Show results of the game (wins and losses)
+    var $gameOver = $('<div/>').attr({id: 'game-over',}).html('Game Over! Here\'s How you did:');
+    var $wins = $('<div/>').attr({id: 'wins',}).html('Wins: ' + this.roundAttributes.wins);
+    var $losses = $('<div/>').attr({id: 'losses',}).html('Losses: ' + this.roundAttributes.losses);
+    this.domElements.infoDiv.append($gameOver, $wins, $losses);
   },
 
   resetGame: function() {
@@ -206,6 +218,17 @@ var game = {
 
     //Hide Reset button
     game.domElements.resetBtn.addClass('hidden');
+
+    //Clear Results Div
+    game.domElements.infoDiv.empty();
+
+    //Resize window
+    game.domElements.container.removeClass('small-size');
+
+    //Show Question prompt
+    game.domElements.qPrompt.removeClass('hidden');
+    game.domElements.countDown.removeClass('hidden');
+    game.domElements.answerImg.removeClass('hidden');
 
     //Display a new question
     game.displayNewQuestion();
